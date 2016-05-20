@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.10'
+    compile 'org.seleniumhq.selenium:selenium-java:2.48.0'
+    compile 'com.google.inject:guice:3.0'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+    compile 'org.testng:testng:6.8.1'
+}
+
+// task Test defined here to run with TestNG
+tasks.withType(Test) {
+    useTestNG(){
+        // use this if you want to create TestNG report along with the build report generated
+        // by gradle
+        // else omit the commands between the {}
+        useDefaultListeners = true
+    }
+
+    // to pass specific commands from the command line
+    // using the -D switch for JVM system properties
+    systemProperties = System.getProperties()
+
+    // run max 2 tests in parallel
+    maxParallelForks = 2
+}
